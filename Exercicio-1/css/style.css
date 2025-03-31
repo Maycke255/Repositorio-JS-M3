@@ -1,0 +1,12 @@
+* {
+    height: 0;
+    width: 0;
+}
+
+header {
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+}
