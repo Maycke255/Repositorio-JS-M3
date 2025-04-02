@@ -16,12 +16,45 @@
     </header>
 
     <main>
-        <button class="add-btt">
+        <section id="secao-inputs">
+            <form action="#" method="get" id="form">
+                <label for="nome" id="nome-label">Nome do Jogador: </label>
+                <br>
+                <input type="text" name="nome-jogador" id="nome" placeholder="Nome...">
+                <br><br>
+                <label for="posicao" id="posicao-label">posicao do Jogador: </label>
+                <br>
+                <input type="text" name="posicao-jogador" id="posicao" placeholder="meio campista, zaga, atacante, etc..">
+                <br><br>
+                <label for="camisa" id="camisa-label">Numero da camisa do jogador: </label>
+                <br>
+                <input type="number" name="camisa-jogador" id="camisa" placeholder="999">
+                <br><br>
+            </form>
+        </section>
+        <br>
+        <button class="add-btt" id="add" onclick="addJogador()">
             Adicionar jogador
         </button>
-        <button class="remove-btt">
+        <br><br>
+        <section id="remove-inputs">
+            <form action="#" method="get" id="form">
+                <label for="numero-camisa" id="numero-label">Digite o numero da camisa do jogador para remove-lo da escalação. </label>
+                <br>
+                <input type="number" name="numero-camisa" id="numero-camisa" placeholder="999">
+                <br><br>
+            </form>
+        </section>
+        <button class="remove-btt" id="remove" onclick="removerJogador()">
             Remover jogador
         </button>
+
+        <br><br>
+        <h2>
+            Jogadores Escalados
+        </h2>
+        <section id="section-pai">
+        </section>
     </main>
 
     <script src="js/script.js"></script>
