@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 1.1</title>
+</head>
+
+<body>
+    <header>
+        <h1>
+            Escalação de times
+        </h1>
+    </header>
+
+    <hr>
+
+    <main>
+        <section>
+            <h2>
+                Escale um jogador para o time:
+            </h2>
+
+            <label for="name" id="name-soccer">Nome do jogador:</label>
+            <br>
+            <input type="text" id="name" name="name" placeholder="Ex: Neymar">
+            <br><br>
+            <label for="number" id="number-soccer">Numero da camisa:</label>
+            <br>
+            <input type="number" id="number" name="number" placeholder="Ex: 10">
+            <br><br>
+            <label for="text" id="position-soccer">Posição do jogador:</label>
+            <br>
+            <input type="text" id="position" name="position" placeholder="Ex: Atacante">
+            <br><br>
+
+            <div>
+                <button onclick="addSoccer()">
+                    Escalar jogador
+                </button>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section>
+            <h2>
+                Remova um jogador do seu time:
+            </h2>
+
+            <label for="remove" id="remove-soccer">Você pode remover um jogador pelo numero da sua camisa</label>
+            <br>
+            <input type="number" id="remove" name="remove">
+
+            <br><br>
+
+            <div>
+                <button onclick="removeSoccer()">
+                    Remover Jogador
+                </button>
+            </div>
+        </section>
+
+        <section id="section-ul">
+            <ul id="soccers"></ul>
+        </section>
+    </main>
+
+    <script src="./js/script.js"></script>
+</body>
+
+</html>
