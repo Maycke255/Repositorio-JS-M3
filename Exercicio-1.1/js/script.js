@@ -58,5 +58,17 @@ function addSoccer(){
 }
 
 function removeSoccer(){
-    
+    const element = document.getElementById(`remove`).value;
+    const elementToRemove = document.getElementById(`positionSoccer-`+element)
+
+    const confirmation = confirm(`Deseja realmente excluir o jogador ${elementToRemove.innerText} da escalação?`)
+
+    if (confirmation) {
+        const list = document.getElementById(`soccers`).removeChild(elementToRemove)
+
+        alert(`O jogador foi removido com sucesso!`)
+        document.getElementById(`remove`).value = ``
+    } else {
+        alert(`Operação cancelada...`)
+    }
 }
