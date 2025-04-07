@@ -21,23 +21,50 @@
     <br><br>
 
     <main>
-        <div>
-            <form action="#" method="post">
-                <label for="input1">Primeiro texto</label>
+        <section>
+            <form action="#" method="get">
+                <label id="label-name" for="name">Coloque seu nome:</label>
                 <br>
-                <input type="text" name="input1" id="input1" class="primeiro-texto">
-
+                <input type="text" id="inputnName">
                 <br><br>
-
-                <div>
-                    <button id="display">
-                        EXIBIR
-                    </button>
-                </div>
+                <label id="label-password" for="passoword">Digite uma senha forte:</label>
+                <br>
+                <input type="text" id="inputPassword">
+                <br><br>
+                <label for="passoword-confirmation" id="passowordConfirmationLabel">Confirme sua senha:</label>
+                <br>
+                <input type="text" id="passowordConfirmationInput">
+                <br><br>
+                <button onclick="register(this.parentNode)">
+                    ENVIAR
+                </button>
             </form>
-        </div>
+        </section>
+        <br>
+        <hr>
+        <br>
+        <section>
+            <form action="#" method="get">
+                <label id="name-register" for="nameRegister">Coloque seu nome:</label>
+                <br>
+                <input type="text" id="nameRegister">
+                <br><br>
+                <label id="password-register" for="passwordRegister">Digite uma senha forte:</label>
+                <br>
+                <input type="text" id="passwordRegister">
+                <br><br>
+                <label id="passoword-register-confirmation" for="passowordregisterConfirmation" >Confirme sua senha:</label>
+                <br>
+                <input type="text" id="passowordregisterConfirmation">
+                <br><br>
+                <button id="registerButton">
+                    ENVIAR
+                </button>
+            </form>
+        </section>
     </main>
     
+    <script src="js/script.js"></script>
 </body>
 
 </html>
