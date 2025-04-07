@@ -58,6 +58,7 @@ function addSoccer(){
 }
 
 function removeSoccer(){
+<<<<<<< HEAD
     const remove = document.getElementById(`remove`).value
     const item = document.getElementById(`positionSoccer-`+remove)
 
@@ -70,5 +71,19 @@ function removeSoccer(){
         document.getElementById(`remove`).value = ``
     } else {
         alert(`Operação cancelada`)
+=======
+    const element = document.getElementById(`remove`).value;
+    const elementToRemove = document.getElementById(`positionSoccer-`+element)
+
+    const confirmation = confirm(`Deseja realmente excluir o jogador ${elementToRemove.innerText} da escalação?`)
+
+    if (confirmation) {
+        const list = document.getElementById(`soccers`).removeChild(elementToRemove)
+
+        alert(`O jogador foi removido com sucesso!`)
+        document.getElementById(`remove`).value = ``
+    } else {
+        alert(`Operação cancelada...`)
+>>>>>>> f2daf56d9aaa52ffa699a8f5439a5ad8691f593c
     }
 }
