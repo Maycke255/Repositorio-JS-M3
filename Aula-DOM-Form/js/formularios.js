@@ -4,18 +4,26 @@ const form = document.getElementById(`orderForm`)
 function eventForm (element){
     // Previne o comportamento padrão de enviar o formulário
     element.preventDefault()
-    const name = document.querySelector(`name`).value
-    const address = document.querySelector(`address`).value
-    const breadType = document.querySelector(`breadType`).value
-    const main = document.querySelector(`main`).value
-    const observations = document.querySelector(`observations`).value
+    const name = document.querySelector(`[name="name"]`).value
+    const address = document.querySelector(`[name="address"]`).value
+    const breadType = document.querySelector(`[name="breadType"]`).value
+    const main = document.querySelector(`[name="main"]`).value
+    const observations = document.querySelector(`[name="observations"]`).value
 
     let selected = ``;
-    document.querySelectorAll(`salad:checked`).forEach(function (item) {
-        salad += ` = ${item.value}\n`
-    })(
+    document.querySelectorAll(`[name="salad"]:checked`).forEach(function (item) {
+        selected += ` - ${item.value}, `
+    })
 
-    alert({
+    alert(
+        name,
+        address,
+        breadType,
+        main,
+        selected,
+        observations
+    )
+    console.log({
         name,
         address,
         breadType,
@@ -23,7 +31,6 @@ function eventForm (element){
         selected,
         observations
     })
-    )
 }
 
 form.addEventListener(`submit`, eventForm)
