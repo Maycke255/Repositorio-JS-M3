@@ -17,3 +17,29 @@ o funcionamento você pode utilizar um simples console.log0
 
 Para esse exercício você deve utilizar apenas eventos adicionados via
 javascript e a página deve funcionar sem acionar um recarregamento. */
+
+let devs = []
+
+const form = document.getElementById(`formDevs`)
+
+function addTechnologyforDev (event){
+    // Usando essa função especifica, interrompemos o carregamento da pagina, mas o JS funciona do mesmo jeito, a pagina so não carrega
+    event.preventDefault();
+
+    // Pegando o nome do usuario
+    const name = document.getElementById(`name`).value;
+    // Vamos sempre exibir no console para ver se esta funcionando corretamente
+    console.log(name);
+
+    if (name === ``) {
+        const groupName = document.getElementById(`groupName`);
+        const createVerification = document.createElement(`p`);
+        createVerification.id = `alertName`
+        createVerification.innerText = `Por favor, insira um nome antes de adicionar uma tecnologia`;
+
+        name.focus()
+        return;
+    }
+}
+
+form.addEventListener(`submit`, addTechnologyforDev);
