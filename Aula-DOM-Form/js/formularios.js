@@ -11,8 +11,13 @@ function eventForm (element){
     const observations = document.querySelector(`[name="observations"]`).value
 
     let selected = ``;
+<<<<<<< HEAD
     document.querySelectorAll(`[name="salad"]:checked`).forEach(function (item) {
         selected += ` - ${item.value}, `
+=======
+    document.querySelectorAll(`salad:checked`).forEach(function (item) {
+        salad += ` = ${item.value}\n`
+>>>>>>> 7195ebcff5a3905ecd9598045ddec256cb9be231
     })
 
     alert(
@@ -31,6 +36,18 @@ function eventForm (element){
         selected,
         observations
     })
+<<<<<<< HEAD
+=======
+
+    console.log({
+        name,
+        address,
+        breadType,
+        main,
+        selected,
+        observations
+    })
+>>>>>>> 7195ebcff5a3905ecd9598045ddec256cb9be231
 }
 
 form.addEventListener(`submit`, eventForm)
