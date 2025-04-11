@@ -13,7 +13,7 @@ function eventForm (element){
     let selected = ``;
     document.querySelectorAll(`salad:checked`).forEach(function (item) {
         salad += ` = ${item.value}\n`
-    })(
+    })
 
     alert({
         name,
@@ -23,7 +23,15 @@ function eventForm (element){
         selected,
         observations
     })
-    )
+
+    console.log({
+        name,
+        address,
+        breadType,
+        main,
+        selected,
+        observations
+    })
 }
 
 form.addEventListener(`submit`, eventForm)
