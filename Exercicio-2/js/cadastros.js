@@ -31,15 +31,20 @@ function addTechnologyforDev (event){
     // Vamos sempre exibir no console para ver se esta funcionando corretamente
     console.log(name);
 
-    if (name === ``) {
-        const groupName = document.getElementById(`groupName`);
-        const createVerification = document.createElement(`p`);
-        createVerification.id = `alertName`
-        createVerification.innerText = `Por favor, insira um nome antes de adicionar uma tecnologia`;
+    let createVerification;
+    const groupName = document.getElementById(`groupName`);
 
-        name.focus()
+    if (name === ``) {
+        createVerification = document.createElement(`p`);
+        createVerification.id = `alertName`
+        createVerification.textContent = `Por favor, insira um nome antes de adicionar uma tecnologia`;
+
+        groupName.appendChild(createVerification);
+
         return;
     }
+    groupName.removeChild(createVerification);
+
 }
 
 form.addEventListener(`submit`, addTechnologyforDev);
