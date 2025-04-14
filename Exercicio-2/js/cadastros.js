@@ -31,20 +31,55 @@ function addTechnologyforDev (event){
     // Vamos sempre exibir no console para ver se esta funcionando corretamente
     console.log(name);
 
-    let createVerification;
-    const groupName = document.getElementById(`groupName`);
+    /* Usando uma verificação para saber se a mensagem de erro existe, o metodo remove() e um metodo exclusivo do DOM, que remove literalmente o HTML da
+    pagina, basta pegarmos o objeto e depois passarmos uma verificação com o remove dentro, e se a verificação fpr true ele remove a linha HTML  */
+    const existingMensageError = document.getElementById(`errorMensage`);
+    if (existingMensageError) {
+        existingMensageError.remove()
+    }
 
     if (name === ``) {
-        createVerification = document.createElement(`p`);
-        createVerification.id = `alertName`
-        createVerification.textContent = `Por favor, insira um nome antes de adicionar uma tecnologia`;
+        const groupName = document.getElementById(`groupName`);
+        const errorMensage = document.createElement(`div`);
+        errorMensage.id = `errorMensage`
+        errorMensage.textContent = `Por favor, insira um nome antes de adicionar uma tecnologia`;
 
-        groupName.appendChild(createVerification);
-
+        groupName.appendChild(errorMensage);
         return;
     }
-    groupName.removeChild(createVerification);
 
+    const sectionForm = document.getElementById(`sectionForm`);
+
+    const featuresDev = document.createElement(`form`);
+    featuresDev.id = `formForFeatures`;
+
+    const nameTechnologyLabel = document.createElement(`label`);
+    nameTechnologyLabel.htmlFor = `nameTechnology`;
+    nameTechnologyLabel.innerText = `Insira o nome da Tecnologia (JavaScript, Python, Java, Delphi): `
+    const br1 = document.createElement(`br`)
+    const nameTechnology = document.createElement(`input`);
+    nameTechnology.type = `text`;
+    nameTechnology.id = `nameTechnology`;
+    const br2 = document.createElement(`br`);
+    const br3 = document.createElement(`br`);
+
+    const years1 = document.createElement(`input`);
+    years1.type = `radio`
+    years1.id = `years1`
+    years1.value = `0-2 anos`
+
+    const years2 = document.createElement(`input`);
+    years2.type = `radio`
+    years2.id = `years2`
+    years2.value = `3-4 anos`
+
+    const years3 = document.createElement(`input`);
+    years3.type = `radio`
+    years3.id = `years3`
+    years3.value = `+ de 5 anos`
+
+    featuresDev.append(nameTechnologyLabel,br1, nameTechnology, br2, br3, years1, years2, years3);
+    sectionForm.appendChild(featuresDev);
 }
 
 form.addEventListener(`submit`, addTechnologyforDev);
