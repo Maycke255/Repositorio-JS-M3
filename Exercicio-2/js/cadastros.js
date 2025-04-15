@@ -63,23 +63,81 @@ function addTechnologyforDev (event){
     const br2 = document.createElement(`br`);
     const br3 = document.createElement(`br`);
 
+    const yeersLabel1 = document.createElement(`label`);
+    yeersLabel1.htmlFor = `years1`
+    yeersLabel1.textContent = `0-2 anos`
     const years1 = document.createElement(`input`);
     years1.type = `radio`
     years1.id = `years1`
+    years1.name = `years`
     years1.value = `0-2 anos`
 
+    const yeersLabel2 = document.createElement(`label`);
+    yeersLabel2.htmlFor = `years2`
+    yeersLabel2.textContent = `3-4 anos`
     const years2 = document.createElement(`input`);
     years2.type = `radio`
     years2.id = `years2`
+    years2.name = `years`
     years2.value = `3-4 anos`
 
+    const yeersLabel3 = document.createElement(`label`);
+    yeersLabel3.htmlFor = `years3`
+    yeersLabel3.textContent = `+ de 5 anos`
     const years3 = document.createElement(`input`);
     years3.type = `radio`
     years3.id = `years3`
+    years3.name = `years`
     years3.value = `+ de 5 anos`
 
-    featuresDev.append(nameTechnologyLabel,br1, nameTechnology, br2, br3, years1, years2, years3);
+    const divRadio = document.createElement(`div`);
+
+    const registerButton = document.createElement(`button`)
+    registerButton.id = `registerButton`
+    registerButton.textContent = `REGISTRAR DEV`
+
+    divRadio.append(years1,yeersLabel1, years2, yeersLabel2, years3, yeersLabel3)
+    featuresDev.append(nameTechnologyLabel, br1, nameTechnology, br2, br3, divRadio, registerButton);
     sectionForm.appendChild(featuresDev);
+
+    if (nameTechnology === ``) {
+        const errorMensage = document.createElement(`div`);
+        errorMensage.id = `errorMensage`
+        errorMensage.textContent = `Por favor, insira a tecnologia em que o dev exerce antes de continuar`;
+
+        groupName.appendChild(errorMensage);
+        return;
+    }
+
+
+    registerButton.addEventListener(`click`, function (event){
+        event.preventDefault()
+
+        // Coletando os valores digitados pelo usuario
+        const nameTechnologyValue = document.getElementById(`nameTechnology`).value
+        const yearsExperience = document.querySelector(`input[name = "years"]:checked`).value
+
+        devs.push({
+                name: name, 
+                technology: nameTechnologyValue, 
+                experiencia: yearsExperience
+            })
+
+        console.log(devs)
+
+        const devsList = document.getElementById(`devsList`)
+
+        devs.forEach(function (dev) {
+            const devRegister = document.createElement(`li`)
+            devRegister.textContent = `Nome do Dev: ${dev.name} - Tecnologia que exerce: ${dev.technology} - Anos de experiencia: ${dev.experience}.`
+
+            devsList.appendChild(devRegister)
+        })
+
+        document.getElementById(`name`).value = ``
+        document.getElementById(`nameTechnology`).value = ``
+        document.querySelector(`input[name = "years"]:checked`).value = ``
+    })
 }
 
 form.addEventListener(`submit`, addTechnologyforDev);
