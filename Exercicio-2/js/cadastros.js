@@ -33,16 +33,19 @@ function addTechnologyforDev (event){
 
     /* Usando uma verificação para saber se a mensagem de erro existe, o metodo remove() e um metodo exclusivo do DOM, que remove literalmente o HTML da
     pagina, basta pegarmos o objeto e depois passarmos uma verificação com o remove dentro, e se a verificação fpr true ele remove a linha HTML  */
-    const existingMensageError = document.getElementById(`errorMensage`);
-    if (existingMensageError) {
-        existingMensageError.remove()
+    function existingMenssageError (){
+        const existingMensageError = document.getElementById(`errorMensage`);
+        if (existingMensageError) {
+            existingMensageError.remove()
+        }
     }
+    existingMenssageError()
 
     if (name === ``) {
         const groupName = document.getElementById(`groupName`);
         const errorMensage = document.createElement(`div`);
         errorMensage.id = `errorMensage`
-        errorMensage.textContent = `Por favor, insira um nome antes de adicionar uma tecnologia`;
+        errorMensage.textContent = `Por favor, insira um nome antes de adicionar uma tecnologia!`;
 
         groupName.appendChild(errorMensage);
         return;
@@ -91,41 +94,61 @@ function addTechnologyforDev (event){
     years3.value = `+ de 5 anos`
 
     const divRadio = document.createElement(`div`);
+    divRadio.id = `divRadio`
+    const divName = document.createElement(`div`);
+    divName.id = `divName`
 
     const registerButton = document.createElement(`button`)
     registerButton.id = `registerButton`
     registerButton.textContent = `REGISTRAR DEV`
 
-    divRadio.append(years1,yeersLabel1, years2, yeersLabel2, years3, yeersLabel3)
-    featuresDev.append(nameTechnologyLabel, br1, nameTechnology, br2, br3, divRadio, registerButton);
+    divName.append(nameTechnologyLabel, br1, nameTechnology);
+    divRadio.append(years1, yeersLabel1, years2, yeersLabel2, years3, yeersLabel3);
+    featuresDev.append(divName, br2, br3, divRadio, registerButton);
     sectionForm.appendChild(featuresDev);
-
-    if (nameTechnology === ``) {
-        const errorMensage = document.createElement(`div`);
-        errorMensage.id = `errorMensage`
-        errorMensage.textContent = `Por favor, insira a tecnologia em que o dev exerce antes de continuar`;
-
-        groupName.appendChild(errorMensage);
-        return;
-    }
-
 
     registerButton.addEventListener(`click`, function (event){
         event.preventDefault()
 
+        existingMenssageError()
+
+        const name = document.getElementById(`name`).value = ``
+
         // Coletando os valores digitados pelo usuario
+        const yearsExperienceValue = document.querySelectorAll(`input[name = "years"]:checked`).forEach (function (radio) {
+            radio.checked = false;
+        });
+        if (yearsExperienceValue === ``) {
+            const divNameMessage = document.getElementById(`divName`);
+            const errorMensage = document.createElement(`div`);
+            errorMensage.id = `errorMensage`
+            errorMensage.textContent = `Por favor, insira a tecnologia em que o dev exerce antes de continuar!`;
+    
+            divNameMessage.appendChild(errorMensage);
+            return;
+        }
+
         const nameTechnologyValue = document.getElementById(`nameTechnology`).value
-        const yearsExperience = document.querySelector(`input[name = "years"]:checked`).value
+        if (nameTechnologyValue === ``) {
+            const divNameMessage = document.getElementById(`divName`);
+            const errorMensage = document.createElement(`div`);
+            errorMensage.id = `errorMensage`
+            errorMensage.textContent = `Por favor, insira a tecnologia em que o dev exerce antes de continuar!`;
+    
+            divNameMessage.appendChild(errorMensage);
+            return;
+        }
 
         devs.push({
                 name: name, 
                 technology: nameTechnologyValue, 
-                experiencia: yearsExperience
-            })
+                experience: yearsExperienceValue
+            });
 
         console.log(devs)
 
         const devsList = document.getElementById(`devsList`)
+        devsList.innerHTML = ``
 
         devs.forEach(function (dev) {
             const devRegister = document.createElement(`li`)
@@ -134,9 +157,11 @@ function addTechnologyforDev (event){
             devsList.appendChild(devRegister)
         })
 
-        document.getElementById(`name`).value = ``
-        document.getElementById(`nameTechnology`).value = ``
-        document.querySelector(`input[name = "years"]:checked`).value = ``
+        document.getElementById(`name`).value = ``;
+        document.getElementById(`nameTechnology`).value = ``;
+        document.querySelectorAll(`input[name = "years"]:checked`).forEach (function (radio) {
+            radio.checked = false;
+        });
     })
 }
 
