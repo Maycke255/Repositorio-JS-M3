@@ -24,6 +24,7 @@
                     <label for="name">Por favor, digite seu nome completo.</label>
                     <br>
                     <input type="text" id="name" >
+                    <div id="nameError" class="error-message"></div>
                 </div>
                 <br><br>
                 <div>
@@ -31,14 +32,21 @@
                         ADICIONAR TECNOLOGIA
                     </button>
                 </div>
+                <div>
+                    <button type="reset" id="abortRegistration">
+                        CANCELAR CADASTRO
+                    </button>
+                </div>
                 <section id="sectionForm"></section>
             </form>
-        </section>
-        <br><br>
-        <section>
-            <div>
-                <ul id="devsList"></ul>
-            </div>
+            <section>
+                <br><br>
+                <section id="devsSection">
+                    <div>
+                        <ul id="devsList"></ul>
+                    </div>
+                </section>
+            </section>
         </section>
     </main>
 

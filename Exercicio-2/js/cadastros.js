@@ -45,7 +45,8 @@ function addTechnologyforDev (event){
         const groupName = document.getElementById(`groupName`);
         const errorMensage = document.createElement(`div`);
         errorMensage.id = `errorMensage`
-        errorMensage.textContent = `Por favor, insira um nome antes de adicionar uma tecnologia!`;
+        errorMensage.textContent = `Por favor, insira um nome antes de adicionar uma tecnologia, ou cancelar/abortar o cadastro, como o campo nome esta vazio, não
+        existe nada para cancelar ou um nome de dev para adicionar uma tecnologia!`;
 
         groupName.appendChild(errorMensage);
         return;
@@ -56,6 +57,17 @@ function addTechnologyforDev (event){
     const featuresDev = document.createElement(`form`);
     featuresDev.id = `formForFeatures`;
 
+    const formForFeaturesExisting = document.getElementById(`formForFeatures` )
+    if (formForFeaturesExisting) {
+        const groupName = document.getElementById(`groupName`);
+        const errorMensage = document.createElement(`div`);
+        errorMensage.id = `errorMensage`
+        errorMensage.textContent = `Você já esta adicionando um candidato, cadaastre ele antes!`;
+
+        groupName.appendChild(errorMensage);
+        return;
+    }
+
     const nameTechnologyLabel = document.createElement(`label`);
     nameTechnologyLabel.htmlFor = `nameTechnology`;
     nameTechnologyLabel.innerText = `Insira o nome da Tecnologia (JavaScript, Python, Java, Delphi): `
@@ -63,6 +75,7 @@ function addTechnologyforDev (event){
     const nameTechnology = document.createElement(`input`);
     nameTechnology.type = `text`;
     nameTechnology.id = `nameTechnology`;
+
     const br2 = document.createElement(`br`);
     const br3 = document.createElement(`br`);
 
@@ -112,22 +125,7 @@ function addTechnologyforDev (event){
 
         existingMenssageError()
 
-        const name = document.getElementById(`name`).value = ``
-
         // Coletando os valores digitados pelo usuario
-        const yearsExperienceValue = document.querySelectorAll(`input[name = "years"]:checked`).forEach (function (radio) {
-            radio.checked = false;
-        });
-        if (yearsExperienceValue === ``) {
-            const divNameMessage = document.getElementById(`divName`);
-            const errorMensage = document.createElement(`div`);
-            errorMensage.id = `errorMensage`
-            errorMensage.textContent = `Por favor, insira a tecnologia em que o dev exerce antes de continuar!`;
-    
-            divNameMessage.appendChild(errorMensage);
-            return;
-        }
-
         const nameTechnologyValue = document.getElementById(`nameTechnology`).value
         if (nameTechnologyValue === ``) {
             const divNameMessage = document.getElementById(`divName`);
@@ -139,30 +137,161 @@ function addTechnologyforDev (event){
             return;
         }
 
+        const yearsExperienceValue = document.querySelector(`input[name = "years"]:checked`);
+        if (!yearsExperienceValue) {
+            const divNameMessage = document.getElementById(`divName`);
+            const errorMensage = document.createElement(`div`);
+            errorMensage.id = `errorMensage`
+            errorMensage.textContent = `Por favor, selecione a experiencia que o candidato tem com sua tecnologia!`;
+    
+            divNameMessage.appendChild(errorMensage);
+            return;
+        }
+
+        let yearsExperienceValueChecked = document.querySelector(`input[name = "years"]:checked`).value;
+
         devs.push({
                 name: name, 
                 technology: nameTechnologyValue, 
-                experience: yearsExperienceValue
+                experience: yearsExperienceValueChecked
             });
 
         console.log(devs)
 
-        const devsList = document.getElementById(`devsList`)
-        devsList.innerHTML = ``
-
-        devs.forEach(function (dev) {
-            const devRegister = document.createElement(`li`)
-            devRegister.textContent = `Nome do Dev: ${dev.name} - Tecnologia que exerce: ${dev.technology} - Anos de experiencia: ${dev.experience}.`
-
-            devsList.appendChild(devRegister)
-        })
-
-        document.getElementById(`name`).value = ``;
-        document.getElementById(`nameTechnology`).value = ``;
-        document.querySelectorAll(`input[name = "years"]:checked`).forEach (function (radio) {
-            radio.checked = false;
-        });
-    })
+        updateUIAfterRegistration();
+    });
 }
+
+function  updateUIAfterRegistration() {
+        const buttonExisting = document.getElementById(`removeListBtn`)
+        if (buttonExisting) {
+            buttonExisting.remove()
+        }
+
+        const devsSection = document.getElementById(`devsSection`)
+        const separator = document.createElement(`div`)
+        separator.id = `separator`
+
+        const removeListBtn = document.createElement(`button`)
+        removeListBtn.id = `removeListBtn`
+        removeListBtn.textContent = `LIMPAR LISTA DE CANDIDATOS`
+
+        separator.appendChild(removeListBtn)
+        devsSection.appendChild(separator)
+
+        updateDevsList()
+
+            // Remove o formulário de features
+        document.getElementById(`formForFeatures`).remove()
+
+        // Adiciona o evento de remoção apenas uma vez
+        removeListBtn.addEventListener(`click`, removeList)
+    }
+
+    function updateDevsList(){
+            // Verifica se a lista já existe, se não, cria
+            let devsList = document.getElementById('devsList');
+            if (!devsList) {
+                devsList = document.createElement('ul');
+                devsList.id = 'devsList';
+                document.getElementById('devsSection').appendChild(devsList);
+            }
+        
+            // Limpa a lista antes de recriar
+            devsList.innerHTML = '';
+        
+            // Adiciona cada dev à lista
+            devs.forEach(function (dev, i) {
+                const devRegister = document.createElement('li');
+                devRegister.name = 'itemList';
+                devRegister.textContent = `Nome do Dev: ${dev.name} - Tecnologia: ${dev.technology} - Experiência: ${dev.experience}.`;
+        
+                const removeLeadLine = document.createElement('button');
+                removeLeadLine.id = 'removeLeadLine';
+                removeLeadLine.textContent = 'REMOVER ESTE CADASTRO';
+                removeLeadLine.setAttribute('data-index', i);
+        
+                devRegister.appendChild(removeLeadLine);
+                devsList.appendChild(devRegister);
+        
+                removeLeadLine.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    devs.splice(i, 1);
+                    updateDevsList()
+                });
+            });
+        
+            // Limpa os campos do formulário
+            document.getElementById('name').value = '';
+    }
+
+
+        function removeList(event) {
+            event.preventDefault();
+        
+            const separator = document.getElementById('separator');
+            separator.innerHTML = 'Confirma a exclusão de toda a lista de devs? Ao clicar em "SIM" a ação não poderá ser refeita!';
+        
+            const div = document.createElement('div');
+            const confirmOK = document.createElement('button');
+            confirmOK.id = 'confirmOK';
+            confirmOK.textContent = 'SIM';
+        
+            const cancel = document.createElement('button');
+            cancel.id = 'cancel';
+            cancel.textContent = 'CANCELAR';
+        
+            div.append(confirmOK, cancel);
+            separator.appendChild(div);
+        
+            // Função para confirmar a exclusão
+            confirmOK.addEventListener(`click`, function(){
+                devs = [];
+                const devsSection = document.getElementById('devsSection');
+                devsSection.innerHTML = '';
+                updateDevsList(); // Recria a lista vazia
+                // Remove o elemento da lista completamente
+            });
+            
+            cancel.addEventListener(`click`, function () {                separator.innerHTML = '';
+                const newRemoveBtn = document.createElement('button');
+                newRemoveBtn.id = 'removeListBtn';
+                newRemoveBtn.textContent = 'LIMPAR LISTA DE CANDIDATOS';
+                newRemoveBtn.addEventListener('click', removeList);
+                separator.appendChild(newRemoveBtn);
+            }); 
+        }
+
+    /* Função para remover ou cancelar um cadastro  */
+function abortRegistration (){
+    const name = document.getElementById(`name`).value;
+
+    function existingMenssageError (){
+        const existingMensageError = document.getElementById(`errorMensage`);
+        if (existingMensageError) {
+            existingMensageError.remove()
+        }
+    }
+    existingMenssageError()
+
+    if (name === ``) {
+        const groupName = document.getElementById(`groupName`);
+        const errorMensage = document.createElement(`div`);
+        errorMensage.id = `errorMensage`
+        errorMensage.textContent = `Para cancelar/abortar um cadastro de um candidato e necessario colocar seu nome e clicar em adicionar uma tecnologia, no momento
+        o campo do nome do dev esta vazio, então não há o que cancelar.`;
+
+        groupName.appendChild(errorMensage);
+        return;
+    }
+
+    const sectionToRemove = document.getElementById(`formForFeatures`);
+    if (sectionToRemove) {
+        sectionToRemove.remove()
+    }
+    document.getElementById(`name`).value = ``;
+}
+
+form.addEventListener(`reset`, abortRegistration);
 
 form.addEventListener(`submit`, addTechnologyforDev);
