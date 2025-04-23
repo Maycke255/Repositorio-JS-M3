@@ -199,6 +199,13 @@ function  updateUIAfterRegistration() {
         
             // Limpa a lista antes de recriar
             devsList.innerHTML = '';
+
+                // Remove o botão de limpar lista se não houver devs
+        if (devs.length === 0) {
+            const separator = document.getElementById('separator');
+            if (separator) separator.remove();
+            return;
+        }
         
             // Adiciona cada dev à lista
             devs.forEach(function (dev, i) {
