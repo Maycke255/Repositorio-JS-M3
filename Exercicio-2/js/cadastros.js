@@ -18,6 +18,7 @@ o funcionamento você pode utilizar um simples console.log0
 Para esse exercício você deve utilizar apenas eventos adicionados via
 javascript e a página deve funcionar sem acionar um recarregamento. */
 
+// Array para armazenar os devs
 let devs = []
 
 const form = document.getElementById(`formDevs`)
@@ -41,6 +42,7 @@ function addTechnologyforDev (event){
     }
     existingMenssageError()
 
+    /*  */
     if (name === ``) {
         const groupName = document.getElementById(`groupName`);
         const errorMensage = document.createElement(`div`);
@@ -253,14 +255,17 @@ function  updateUIAfterRegistration() {
         
             // Função para confirmar a exclusão
             confirmOK.addEventListener(`click`, function(){
+                // Recria a array devs com a array vazia
                 devs = [];
+                // Limpa a sessão onde esta presenta a ul lista dos devs
                 const devsSection = document.getElementById('devsSection');
                 devsSection.innerHTML = '';
                 updateDevsList(); // Recria a lista vazia
                 // Remove o elemento da lista completamente
             });
             
-            cancel.addEventListener(`click`, function () {                separator.innerHTML = '';
+            cancel.addEventListener(`click`, function () {                
+                separator.innerHTML = '';
                 const newRemoveBtn = document.createElement('button');
                 newRemoveBtn.id = 'removeListBtn';
                 newRemoveBtn.textContent = 'LIMPAR LISTA DE CANDIDATOS';
@@ -269,7 +274,7 @@ function  updateUIAfterRegistration() {
             }); 
         }
 
-    /* Função para remover ou cancelar um cadastro  */
+/* Função para cancelar um cadastro quando estiver digitando um nome, ela cancela toda a ação  */
 function abortRegistration (){
     const name = document.getElementById(`name`).value;
 
@@ -281,6 +286,7 @@ function abortRegistration (){
     }
     existingMenssageError()
 
+    // Verificação para um erro, caso o nome esteja vazio, ou não exista campos de inputs para o cadastro, essa mensagem aparece e a função acima a remove
     if (name === ``) {
         const groupName = document.getElementById(`groupName`);
         const errorMensage = document.createElement(`div`);
@@ -292,6 +298,7 @@ function abortRegistration (){
         return;
     }
 
+    // apaga o campo name e remove toda a sessão de cadastro
     const sectionToRemove = document.getElementById(`formForFeatures`);
     if (sectionToRemove) {
         sectionToRemove.remove()
@@ -299,6 +306,8 @@ function abortRegistration (){
     document.getElementById(`name`).value = ``;
 }
 
+// Botão de registrar
 form.addEventListener(`reset`, abortRegistration);
 
+//Botão de cadastrar um dev e aparecer os inputs de cadastro
 form.addEventListener(`submit`, addTechnologyforDev);
