@@ -42,7 +42,7 @@ function addTechnologyforDev (event){
     }
     existingMenssageError()
 
-    /*  */
+    /* Mensagem referente ao input name, caso a pessoa não insira um nome, essa mensagem aparece */
     if (name === ``) {
         const groupName = document.getElementById(`groupName`);
         const errorMensage = document.createElement(`div`);
@@ -59,12 +59,13 @@ function addTechnologyforDev (event){
     const featuresDev = document.createElement(`form`);
     featuresDev.id = `formForFeatures`;
 
+    // Mensagem de erro caso o usuario tente cadastrar dois devs de uma vez
     const formForFeaturesExisting = document.getElementById(`formForFeatures` )
     if (formForFeaturesExisting) {
         const groupName = document.getElementById(`groupName`);
         const errorMensage = document.createElement(`div`);
         errorMensage.id = `errorMensage`
-        errorMensage.textContent = `Você já esta adicionando um candidato, cadaastre ele antes!`;
+        errorMensage.textContent = `Você já esta adicionando um candidato, cadastre ele antes!`;
 
         groupName.appendChild(errorMensage);
         return;
@@ -202,11 +203,13 @@ function  updateUIAfterRegistration() {
             // Limpa a lista antes de recriar
             devsList.innerHTML = '';
 
-                // Remove o botão de limpar lista se não houver devs
+        // Remove o botão de limpar lista se não houver devs
         if (devs.length === 0) {
             const separator = document.getElementById('separator');
-            if (separator) separator.remove();
-            return;
+            if (separator) {
+                separator.remove();
+                return;
+            }
         }
         
             // Adiciona cada dev à lista
@@ -224,6 +227,14 @@ function  updateUIAfterRegistration() {
                 devsList.appendChild(devRegister);
         
                 removeLeadLine.addEventListener('click', function (event) {
+                    if (devs.length === 0) {
+                        const separator = document.getElementById('separator');
+                        if (separator) {
+                            separator.remove();
+                            return;
+                        }
+                    }
+
                     event.preventDefault();
                     devs.splice(i, 1);
                     updateDevsList()
