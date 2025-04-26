@@ -54,6 +54,7 @@ function addTechnologyforDev (event){
         return;
     }
 
+    // Aqui coletamos o id da sessão onde iremos inserir o formulario de cadastro e logo abaixo o criamos
     const sectionForm = document.getElementById(`sectionForm`);
 
     const featuresDev = document.createElement(`form`);
@@ -71,6 +72,8 @@ function addTechnologyforDev (event){
         return;
     }
 
+    /* Adicionando os campos de inputs para preenchimento do formulario
+    Primeiro, adicionamos o campo de tecnologia para o dev selecionado do tipo texto */
     const nameTechnologyLabel = document.createElement(`label`);
     nameTechnologyLabel.htmlFor = `nameTechnology`;
     nameTechnologyLabel.innerText = `Insira o nome da Tecnologia (JavaScript, Python, Java, Delphi): `
@@ -82,6 +85,7 @@ function addTechnologyforDev (event){
     const br2 = document.createElement(`br`);
     const br3 = document.createElement(`br`);
 
+    // Em seguida adicionamos os botões de radio, precisamos colocar o mesmo name, caso não, não iriamos conseguir marcar somente uma opção
     const yeersLabel1 = document.createElement(`label`);
     yeersLabel1.htmlFor = `years1`
     yeersLabel1.textContent = `0-2 anos`
@@ -109,11 +113,13 @@ function addTechnologyforDev (event){
     years3.name = `years`
     years3.value = `+ de 5 anos`
 
+    // Divs para organizar os botões
     const divRadio = document.createElement(`div`);
     divRadio.id = `divRadio`
     const divName = document.createElement(`div`);
     divName.id = `divName`
 
+    // Criando o botão de registrar o dev, esse botão vai ser adicionado junto com os botões de registro
     const registerButton = document.createElement(`button`)
     registerButton.id = `registerButton`
     registerButton.textContent = `REGISTRAR DEV`
@@ -123,6 +129,7 @@ function addTechnologyforDev (event){
     featuresDev.append(divName, br2, br3, divRadio, registerButton);
     sectionForm.appendChild(featuresDev);
 
+    // Adicionando um evento para o botão
     registerButton.addEventListener(`click`, function (event){
         event.preventDefault()
 
