@@ -23,6 +23,23 @@ let devs = []
 
 const form = document.getElementById(`formDevs`)
 
+/* Criando algumas funcoes necessarias, funcoes que usariamos mais tarde para criar as variaveis de inputs*/
+function createLabel (text, htmlFor) {
+    const label = document.createElement(`label`);
+    label.htmlFor = htmlFor;
+    label.innerText = text;
+    return label;
+}
+
+function createInput (id, name, type = `text`, value) {
+    const input = document.createElement(`input`);
+    input.id = id;
+    input.name = name;
+    input.type = type;
+    input.value = value
+    return input
+}
+
 function addTechnologyforDev (event){
     // Usando essa função especifica, interrompemos o carregamento da pagina, mas o JS funciona do mesmo jeito, a pagina so não carrega
     event.preventDefault();
@@ -42,7 +59,7 @@ function addTechnologyforDev (event){
     }
     existingMenssageError()
 
-    /* Mensagem referente ao input name, caso a pessoa não insira um nome, essa mensagem aparece */
+    /* Mensagem de erro, caso o input name esteja vazio  */
     if (name === ``) {
         const groupName = document.getElementById(`groupName`);
         const errorMensage = document.createElement(`div`);
@@ -54,89 +71,67 @@ function addTechnologyforDev (event){
         return;
     }
 
-    // Aqui coletamos o id da sessão onde iremos inserir o formulario de cadastro e logo abaixo o criamos
     const sectionForm = document.getElementById(`sectionForm`);
 
+    // Crriando o formulario onde ficaram os inputs
     const featuresDev = document.createElement(`form`);
     featuresDev.id = `formForFeatures`;
 
-    // Mensagem de erro caso o usuario tente cadastrar dois devs de uma vez
+    // Caso o usuario ja esteja cadastrando um usuario, no caso já estiver um nome presente e os botões referente aquele nome, essa mensagem de erro irá aparecer
     const formForFeaturesExisting = document.getElementById(`formForFeatures` )
     if (formForFeaturesExisting) {
         const groupName = document.getElementById(`groupName`);
         const errorMensage = document.createElement(`div`);
         errorMensage.id = `errorMensage`
-        errorMensage.textContent = `Você já esta adicionando um candidato, cadastre ele antes!`;
+        errorMensage.textContent = `Você já esta adicionando um candidato, cadaastre ele antes!`;
 
         groupName.appendChild(errorMensage);
         return;
     }
 
-    /* Adicionando os campos de inputs para preenchimento do formulario
-    Primeiro, adicionamos o campo de tecnologia para o dev selecionado do tipo texto */
-    const nameTechnologyLabel = document.createElement(`label`);
-    nameTechnologyLabel.htmlFor = `nameTechnology`;
-    nameTechnologyLabel.innerText = `Insira o nome da Tecnologia (JavaScript, Python, Java, Delphi): `
+    // Aqui vamos aproveitar as funcoes que criamos acima, vamos simplesmente chama-las dentro da variavel e definir os paremetros delas de acordo com os das funcoes
+    const nameTechLabel = createLabel(`Insira o nome da Tecnologia (JavaScript, Python, Java, Delphi): `, `nameTech`)
     const br1 = document.createElement(`br`)
-    const nameTechnology = document.createElement(`input`);
-    nameTechnology.type = `text`;
-    nameTechnology.id = `nameTechnology`;
+    const nameTechnology = createInput(`nameTech`, `nameInput`,`text`, null)
 
     const br2 = document.createElement(`br`);
     const br3 = document.createElement(`br`);
 
-    // Em seguida adicionamos os botões de radio, precisamos colocar o mesmo name, caso não, não iriamos conseguir marcar somente uma opção
-    const yeersLabel1 = document.createElement(`label`);
-    yeersLabel1.htmlFor = `years1`
-    yeersLabel1.textContent = `0-2 anos`
-    const years1 = document.createElement(`input`);
-    years1.type = `radio`
-    years1.id = `years1`
-    years1.name = `years`
-    years1.value = `0-2 anos`
+    const yeersLabel1 = createLabel(`0-2 anos`, `years1`)
+    const years1 = createInput(`years1`, `years`, `radio`, `0-2 anos`)
 
-    const yeersLabel2 = document.createElement(`label`);
-    yeersLabel2.htmlFor = `years2`
-    yeersLabel2.textContent = `3-4 anos`
-    const years2 = document.createElement(`input`);
-    years2.type = `radio`
-    years2.id = `years2`
-    years2.name = `years`
-    years2.value = `3-4 anos`
+    const yeersLabel2 = createLabel(`3-4 anos`, `years2`)
+    const years2 = createInput(`years2`, `years`, `radio`, `3-4 anos`)
 
-    const yeersLabel3 = document.createElement(`label`);
-    yeersLabel3.htmlFor = `years3`
-    yeersLabel3.textContent = `+ de 5 anos`
-    const years3 = document.createElement(`input`);
-    years3.type = `radio`
-    years3.id = `years3`
-    years3.name = `years`
-    years3.value = `+ de 5 anos`
+    const yeersLabel3 = createLabel(`+ de 5 anos`, `years3`)
+    const years3 = createInput(`years3`, `years`, `radio`, `+ de 5 anos`)
 
-    // Divs para organizar os botões
+    // divs para organizar
     const divRadio = document.createElement(`div`);
     divRadio.id = `divRadio`
     const divName = document.createElement(`div`);
     divName.id = `divName`
 
-    // Criando o botão de registrar o dev, esse botão vai ser adicionado junto com os botões de registro
+    // botão de registrar que e reponsavel por registrar as informacões do dev inseridas nos inputs acima
     const registerButton = document.createElement(`button`)
     registerButton.id = `registerButton`
     registerButton.textContent = `REGISTRAR DEV`
 
-    divName.append(nameTechnologyLabel, br1, nameTechnology);
+    // adicionando os botoes a pagina
+    divName.append(nameTechLabel, br1, nameTechnology);
     divRadio.append(years1, yeersLabel1, years2, yeersLabel2, years3, yeersLabel3);
     featuresDev.append(divName, br2, br3, divRadio, registerButton);
     sectionForm.appendChild(featuresDev);
 
-    // Adicionando um evento para o botão
+    // criando evento para o obotão de cadastro, esse botão vai ser responsavel por cadastrar todas as informacões em uma lista de devs
     registerButton.addEventListener(`click`, function (event){
         event.preventDefault()
 
+        // chamada da funcão aqui dentro para ver se tem alguma mensagem de erro
         existingMenssageError()
 
-        // Coletando os valores digitados pelo usuario
-        const nameTechnologyValue = document.getElementById(`nameTechnology`).value
+        // Mensagem de erro caso o usuario tente cadastrar um dev sem sua tecnologia, vamos aproveitar e usar essa variavel mais tarde também
+        const nameTechnologyValue = document.getElementById(`nameTech`).value
         if (nameTechnologyValue === ``) {
             const divNameMessage = document.getElementById(`divName`);
             const errorMensage = document.createElement(`div`);
@@ -147,6 +142,9 @@ function addTechnologyforDev (event){
             return;
         }
 
+        /* verificacão caso o usuario tente cadastrar um dev sem marcar sua experiencia com a linguagem, no caso o verificador ! significa negacão ou contradicão,
+        pegando a variavel ultilizando o querySelector e verificando se os botões de radio estão checados, no caso, marcados, portanto, caso os botões radio
+        NÃO estejam checados a verificacão ocorre. */
         const yearsExperienceValue = document.querySelector(`input[name = "years"]:checked`);
         if (!yearsExperienceValue) {
             const divNameMessage = document.getElementById(`divName`);
@@ -158,8 +156,10 @@ function addTechnologyforDev (event){
             return;
         }
 
-        let yearsExperienceValueChecked = document.querySelector(`input[name = "years"]:checked`).value;
+        // Agora sim, pegamos o VALUE dos radios que estão marcados
+        const yearsExperienceValueChecked = document.querySelector(`input[name = "years"]:checked`).value;
 
+        // Por fim, fazemos o que o botão realmente foi desginado a fazer, enviar os valores para a array de devs como objeto
         devs.push({
                 name: name, 
                 technology: nameTechnologyValue, 
@@ -168,11 +168,13 @@ function addTechnologyforDev (event){
 
         console.log(devs)
 
-        updateUIAfterRegistration();
+        updateListAfterRegistration();
     });
 }
 
-function  updateUIAfterRegistration() {
+// Funcão para remover a lista completa dos devs
+function  updateListAfterRegistration() {
+        // Funcão para remover o botão caso ele já exista na tela
         const buttonExisting = document.getElementById(`removeListBtn`)
         if (buttonExisting) {
             buttonExisting.remove()
@@ -198,25 +200,77 @@ function  updateUIAfterRegistration() {
         removeListBtn.addEventListener(`click`, removeList)
     }
 
-    function updateDevsList(){
-            // Verifica se a lista já existe, se não, cria
-            let devsList = document.getElementById('devsList');
-            if (!devsList) {
-                devsList = document.createElement('ul');
-                devsList.id = 'devsList';
-                document.getElementById('devsSection').appendChild(devsList);
+    function removeList(event) {
+        event.preventDefault();
+    
+        // Funcão para remover o botão assim que a mensagem de erro abaixo aparecer
+        function removeListBtn() {
+            const removeListBtn = document.getElementById(`removeListBtn`)
+            if (removeListBtn) {
+                removeListBtn.remove()
             }
+        }
+        removeListBtn()
         
-            // Limpa a lista antes de recriar
-            devsList.innerHTML = '';
+        const separator = document.getElementById('separator');
+        separator.innerHTML = 'Confirma a exclusão de toda a lista de devs? Ao clicar em "SIM" a ação não poderá ser refeita!';
+    
+        const div = document.createElement('div');
+
+        const confirmOK = document.createElement('button');
+        confirmOK.id = 'confirmOK';
+        confirmOK.textContent = 'SIM';
+    
+        const cancel = document.createElement('button');
+        cancel.id = 'cancel';
+        cancel.textContent = 'CANCELAR';
+    
+        div.append(confirmOK, cancel);
+        separator.appendChild(div);
+    
+        // Função para confirmar a exclusão
+        confirmOK.addEventListener(`click`, function(){
+            // Recria a array devs com a array vazia
+            devs = [];
+            // Limpa a sessão onde esta presenta a ul lista dos devs
+            const devsSection = document.getElementById('devsSection');
+            devsSection.innerHTML = '';
+            updateDevsList(); // Recria a lista vazia
+            // Remove o elemento da lista completamente
+        });
+        
+        //Funcão para cancelar a exclusão, caso ele clique em cancelar, essa funcão irá criar o botão novamente, e como se desse a impressão de voltar para a acão anterior
+        cancel.addEventListener(`click`, function () {                
+            separator.innerHTML = ''; // Limpa o HTML presente na div do botão
+            //Recria todo o botão e adiciona a mesma funcão
+            const newRemoveBtn = document.createElement('button'); 
+            newRemoveBtn.id = 'removeListBtn';
+            newRemoveBtn.textContent = 'LIMPAR LISTA DE CANDIDATOS';
+            newRemoveBtn.addEventListener('click', removeList);
+            separator.appendChild(newRemoveBtn);
+        }); 
+    }
+
+    // Funcao para adicionar a lista a tela
+    function updateDevsList(){
+        // Verifica se a lista já existe, se não, cria
+        let devsList = document.getElementById('devsList');
+        if (!devsList) {
+            devsList = document.createElement('ul');
+            devsList.id = 'devsList';
+            document.getElementById('devsSection').appendChild(devsList);
+        }
+        
+        // Limpa a lista antes de recriar
+        devsList.innerHTML = '';
 
         // Remove o botão de limpar lista se não houver devs
         if (devs.length === 0) {
             const separator = document.getElementById('separator');
-            if (separator) {
+            if (separator){
                 separator.remove();
-                return;
             }
+            return;
         }
         
             // Adiciona cada dev à lista
@@ -225,72 +279,32 @@ function  updateUIAfterRegistration() {
                 devRegister.name = 'itemList';
                 devRegister.textContent = `Nome do Dev: ${dev.name} - Tecnologia: ${dev.technology} - Experiência: ${dev.experience}.`;
         
+                // Adicionando o botão de remover a linha cadastrada, para cada dev cadastrado na lista, por exemplo, caso o usuario queira excluir somente aquele dev com aquela tecnologia especifica
                 const removeLeadLine = document.createElement('button');
                 removeLeadLine.id = 'removeLeadLine';
                 removeLeadLine.textContent = 'REMOVER ESTE CADASTRO';
+                // ------------------------------------------------- PAREI AQUI
                 removeLeadLine.setAttribute('data-index', i);
         
                 devRegister.appendChild(removeLeadLine);
                 devsList.appendChild(devRegister);
         
                 removeLeadLine.addEventListener('click', function (event) {
-                    if (devs.length === 0) {
-                        const separator = document.getElementById('separator');
-                        if (separator) {
-                            separator.remove();
-                            return;
-                        }
-                    }
-
                     event.preventDefault();
                     devs.splice(i, 1);
                     updateDevsList()
+
+                    if (devs.length === 0) {
+                        const separator = document.getElementById('separator');
+                        if (separator) separator.remove();
+                        return;
+                    }
                 });
             });
         
             // Limpa os campos do formulário
             document.getElementById('name').value = '';
     }
-
-
-        function removeList(event) {
-            event.preventDefault();
-        
-            const separator = document.getElementById('separator');
-            separator.innerHTML = 'Confirma a exclusão de toda a lista de devs? Ao clicar em "SIM" a ação não poderá ser refeita!';
-        
-            const div = document.createElement('div');
-            const confirmOK = document.createElement('button');
-            confirmOK.id = 'confirmOK';
-            confirmOK.textContent = 'SIM';
-        
-            const cancel = document.createElement('button');
-            cancel.id = 'cancel';
-            cancel.textContent = 'CANCELAR';
-        
-            div.append(confirmOK, cancel);
-            separator.appendChild(div);
-        
-            // Função para confirmar a exclusão
-            confirmOK.addEventListener(`click`, function(){
-                // Recria a array devs com a array vazia
-                devs = [];
-                // Limpa a sessão onde esta presenta a ul lista dos devs
-                const devsSection = document.getElementById('devsSection');
-                devsSection.innerHTML = '';
-                updateDevsList(); // Recria a lista vazia
-                // Remove o elemento da lista completamente
-            });
-            
-            cancel.addEventListener(`click`, function () {                
-                separator.innerHTML = '';
-                const newRemoveBtn = document.createElement('button');
-                newRemoveBtn.id = 'removeListBtn';
-                newRemoveBtn.textContent = 'LIMPAR LISTA DE CANDIDATOS';
-                newRemoveBtn.addEventListener('click', removeList);
-                separator.appendChild(newRemoveBtn);
-            }); 
-        }
 
 /* Função para cancelar um cadastro quando estiver digitando um nome, ela cancela toda a ação  */
 function abortRegistration (){
