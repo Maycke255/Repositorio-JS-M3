@@ -264,14 +264,17 @@ function  updateListAfterRegistration() {
         // Limpa a lista antes de recriar
         devsList.innerHTML = '';
 
-        // Remove o botão de limpar lista se não houver devs
-        if (devs.length === 0) {
-            const separator = document.getElementById('separator');
-            if (separator){
-                separator.remove();
+        // Em seguida verificamos se a array não tem nenhum dev, caso não tenha nenhum, removemos o botão da tela, afinal não tem como limpar uma lista vazia
+        function existingSeparator(){
+            if (devs.length === 0) {
+                const separator = document.getElementById('separator');
+                if (separator){
+                    separator.remove();
+                }
+                return;
             }
-            return;
         }
+        existingSeparator()
         
             // Adiciona cada dev à lista
             devs.forEach(function (dev, i) {
@@ -283,26 +286,30 @@ function  updateListAfterRegistration() {
                 const removeLeadLine = document.createElement('button');
                 removeLeadLine.id = 'removeLeadLine';
                 removeLeadLine.textContent = 'REMOVER ESTE CADASTRO';
-                // ------------------------------------------------- PAREI AQUI
-                removeLeadLine.setAttribute('data-index', i);
+                /* Aqui adicionamos o atributo dataset ao botão, no caso esse atributo representa como se fosse uma etiqueta, ele armazena um indice 
+                temporario de cada item do array para o botão saber quais são */
+                removeLeadLine.dataset.index = i;
         
                 devRegister.appendChild(removeLeadLine);
                 devsList.appendChild(devRegister);
         
+                // Função para o botão remover aquele dev especifico
                 removeLeadLine.addEventListener('click', function (event) {
                     event.preventDefault();
-                    devs.splice(i, 1);
+
+                    // Aqui ele obtem o indice atualizado do dataset, usamos o parseInt pq o dataset devolve uma string, e precisamos converter em numero para remover
+                    const dataIndex = parseInt(this.dataset.index);
+
+                    // Rmovemos o item do array e em seguida atualizamos a lista chamando a propria função
+                    devs.splice(dataIndex, 1);
                     updateDevsList()
 
-                    if (devs.length === 0) {
-                        const separator = document.getElementById('separator');
-                        if (separator) separator.remove();
-                        return;
-                    }
+                    // Chamamos a função de remover o botão de limpar a lista dnv quando a ação do botão de remover um dev for acionada
+                    existingSeparator()
                 });
             });
         
-            // Limpa os campos do formulário
+            // Limpa os campos do formulário do name
             document.getElementById('name').value = '';
     }
 
