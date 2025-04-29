@@ -1,0 +1,13 @@
+.theme-light {
+    background-color: #f0f0f0;
+    color: #161616;
+}
+
+.theme-dark {
+    background-color: #161616;
+    color: #f0f0f0;
+}
+
+.green-color-text {
+    color: #7fff00;
+}
