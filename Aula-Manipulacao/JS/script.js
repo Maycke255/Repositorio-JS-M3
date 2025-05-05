@@ -71,4 +71,7 @@ document.getElementById('disable').addEventListener('click', function () {
 document.getElementById('data').addEventListener('click', function () {
     const data = input.dataset.somethingElse
     console.log(`O valor do dataset e: ${data}`)
+
+    input.dataset.somethingElse = 'Novo valor'
+    console.log(`O novo valor do dataset e: ${input.dataset.somethingElse}`)
 })
