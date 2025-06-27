@@ -19,13 +19,28 @@ document.getElementById('saveSl').addEventListener('click', function () {
     inputLocal.value = '';
 });
 
+document.getElementById('readSl').addEventListener('click', function () {
+    const readLocal = localStorage.getItem('name');
+    const localLength = localStorage.length
+
+    alert(`A informacão do session storage é: ${readLocal} e seu tamanho é ${localLength}`);
+    console.log(`A informacão do session storage é: ${readLocal} e seu tamanho é ${localLength}`);
+})
+
 document.getElementById('saveCk').addEventListener('click', function (){
-    const coockiesInput = document.getElementById('saveCk');
+    const coockiesInput = document.getElementById('cookies');
 
     const cookie = `info=${coockiesInput.value};`;
     const expiration = `expires=${new Date(2025, 6, 1)};`;
     const path = `path=/;`;
 
-    document.cookie = `${cookie, expiration, path}`
+    document.cookie = cookie + expiration + path
     coockiesInput.value = '';
+})
+
+document.getElementById('readCk').addEventListener('click', function () {
+    const read = document.cookie;
+
+    console.log(read)
+    alert(read)
 })
